@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/style.css">
+    <script type="text/javascript" src="/function.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <script type="text/javascript">
+        function set_ssid(submit){
+            server = "/ssid?ssid="+val('ssid')+"&pass="+encodeURIComponent(val('password'));
+            send_request(submit,server);
+            alert("Измененя вступят в силу после перезагрузки. Пожалуйта перезагрузите устройство.");
+        }
+
+        function set_devece(submit){
+            server = "/devece?id="+val('id')+"&key="+val('key');
+            send_request(submit,server);
+        }
+
+        function set_server(submit){
+            server = "/server?url="+val('server');
+            send_request(submit,server);
+            alert("Измененя вступят в силу после перезагрузки. Пожалуйта перезагрузите устройство.");
+        }
+
+        function restart(submit,texts){
+            if (confirm(texts)) {
+                server = "/restart?device=ok";
+                send_request(submit,server);
+                return true;
+            } else {
+                return false;
+            }
+        }
+    </script>
+</head>
+
+<body onload="load();">
+    <div class="container">
+        <div class="row" style="text-align:center;">
+            <div class="col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6">
+                <h5 class="alert-info" id="ssdp_t">{{devece_name}}</h5>
+                
+                <h2>Подключение к WiFi роутеру</h2>
+                <input id="ssid" value="{{wifi_ssid}}" class="form-control" placeholder="Имя WiFi сети">
+                <br>
+                <input id="password" value="{{wifi_pass}}" onfocus="this.type='text'" type="password" class="form-control" placeholder="Пароль">
+                <br>
+                <input class="btn btn-block btn-success" value="Сохранить" onclick="set_ssid(this);" type="submit">
+                <hr>
+
+                <h2>Настройка аккаунта</h2>
+                <input id="id" value="{{devece_id}}" class="form-control" placeholder="ID устройства">
+                <br>
+                <input id="key" value="{{devece_key}}" class="form-control"  placeholder="Ключ устройства">
+                <br>
+                <input class="btn btn-block btn-success" value="Сохранить" onclick="set_devece(this);" type="submit">
+                <hr>
+
+                <h2>Настройка сервера</h2>
+                <input id="server" value="{{server}}" class="form-control" placeholder="url">
+                <br>
+                <input class="btn btn-block btn-success" value="Сохранить" onclick="set_server(this);" type="submit">
+                <hr>
+                
+                <input class="btn btn-block btn-warning" value="Перезагрузить устройство" onclick="restart(this,'Вы действительно хотите перезагрузить устройство?');" type="submit">
+            </div>
+        </div>
+    </div>
+</body>
+</html>
